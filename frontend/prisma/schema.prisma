@@ -10,25 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Prop {
-  id  Int @id @default(autoincrement())
-  num Int @unique
-
-  finalized Boolean @default(false)
-
-  Comments Comment[]
-  Group Group[]
-}
-
 model Group {
   id   Int    @id @default(autoincrement())
   root String
 
-  propId Int
-  prop   Prop @relation(fields: [propId], references: [id])
-
-  typeId Int
-  type   GroupType @relation(fields: [typeId], references: [id])
+  latestHackerHouseId Int  
+  address String
 
   last_update DateTime @default(now())
   leaves      Leaf[]
@@ -64,11 +51,8 @@ model Comment {
 
   createdAt DateTime @default(now())
 
-  groupType Int 
-  group    GroupType @relation(fields: [groupType], references: [id])
-
-  propNum Int 
-  prop  Prop @relation(fields: [propNum], references: [num])
+  groupId Int 
+  group    Group @relation(fields: [groupId], references: [id])
 
   ipfsProof String
 

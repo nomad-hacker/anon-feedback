@@ -10,37 +10,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Prop {
-  id  Int @id @default(autoincrement())
-  num Int @unique
 
-  finalized Boolean @default(false)
+model House {
+ 
+  id   Int    @id @default(autoincrement())
+  createdAt DateTime @default(now())
 
-  Group Group[]
+  Hackers Hacker[]
+}
+
+
+model Hacker {
+
+  id   Int    @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  address String
+
+  Houses House[]
+
+  @@unique([address])
+
+}
+
+
+model HackersOnHouses {
+  
+  house   House  @relation(fields: [houseId], references: [id])
+  houseId Int
+
+  hacker  Hacker  @relation(fields: [hackerId], references: [id])
+  hackerId  Int
+ 
+  @id([hackerId, houseId])
+
 }
 
 model Group {
   id   Int    @id @default(autoincrement())
   root String
 
-  propId Int
-  prop   Prop @relation(fields: [propId], references: [id])
+  hackerId Int
+  hacker  Hacker @relation(fields: [hackerId], references: [id])
 
-  typeId Int
-  type   GroupType @relation(fields: [typeId], references: [id])
+  latestHackerHouseId Int
 
   last_update DateTime @default(now())
   leaves      Leaf[]
 
-  @@unique([propId, typeId])
-}
-
-// NOTE: i.e. 1-noun
-model GroupType {
-  id Int @id @default(autoincrement())
-
-  name  String  @unique
-  Group Group[]
+  @@unique([hackerId, latestHackerHouseId])
 }
 
 model Leaf {
