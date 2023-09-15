@@ -10,27 +10,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model House {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  Hackers         Hacker[]
+  HackersOnHouses HackersOnHouses[]
+}
+
+model Hacker {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  address String
+
+  Houses House[]
+
+  HackersOnHouses HackersOnHouses[]
+  Group           Group[]
+}
+
+model HackersOnHouses {
+  house   House @relation(fields: [houseId], references: [id])
+  houseId Int
+
+  hacker   Hacker @relation(fields: [hackerId], references: [id])
+  hackerId Int
+
+  @@id([hackerId, houseId])
+}
+
 model Group {
   id   Int    @id @default(autoincrement())
   root String
 
-  latestHackerHouseId Int  
-  address String
+  hackerId Int
+  hacker   Hacker @relation(fields: [hackerId], references: [id])
 
-  last_update DateTime @default(now())
+  latestHackerHouseId Int
+
+  last_update DateTime   @default(now())
   leaves      Leaf[]
+  feedbacks   Feedback[]
 
-  @@unique([propId, typeId])
-}
-
-// NOTE: i.e. 1-noun
-model GroupType {
-  id Int @id @default(autoincrement())
-
-  name  String  @unique
-
-  Comments Comment[]
-  Group Group[]
+  @@unique([hackerId, latestHackerHouseId])
 }
 
 model Leaf {
@@ -45,15 +68,15 @@ model Leaf {
   @@unique([data, groupId])
 }
 
-model Comment {
-  id      Int    @id @default(autoincrement())
+model Feedback {
+  id Int @id @default(autoincrement())
+
   commentMsg String
+  subject    String
+  createdAt  DateTime @default(now())
 
-  createdAt DateTime @default(now())
-
-  groupId Int 
-  group    Group @relation(fields: [groupId], references: [id])
+  groupId Int
+  group   Group @relation(fields: [groupId], references: [id])
 
   ipfsProof String
-
 }

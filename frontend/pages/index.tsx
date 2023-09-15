@@ -35,7 +35,7 @@ export interface DisplayProp {
 
 const Home: NextPage = () => {
   const { data: currentBlockNumber } = useBlockNumber();
-  const [tabState, setTabState] = useState(0);
+  const [tabState, setTabState] = useState(1);
 
   const { isLoading: propIdsLoading, data: propIdsPayload } =
     useQuery<PropsPayload>({
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Heyanoun</title>
+        <title>Nomad Hacker Anon Feedback</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -136,20 +136,6 @@ const Home: NextPage = () => {
               <button
                 type="button"
                 className={classnames(
-                  "font-semi-bold items-center rounded-md border border-transparent bg-gray-50 active:bg-gray-200 px-4 py-2 font-medium text-gray-800 hover:bg-gray-100 text-xl transition-all ",
-                  {
-                    "bg-gray-100": tabState === 0,
-                  }
-                )}
-                onClick={() => {
-                  setTabState(0);
-                }}
-              >
-                Proposals
-              </button>
-              <button
-                type="button"
-                className={classnames(
                   "font-semi-bold items-center rounded-md border border-transparent bg-gray-50 active:bg-gray-200 px-4 py-2 font-medium text-gray-800 hover:bg-gray-100 text-xl transition-all",
                   {
                     "bg-gray-100": tabState === 1,
@@ -163,30 +149,6 @@ const Home: NextPage = () => {
               </button>
             </div>
             <div className="mt-6">
-              {tabState === 0 && (
-                <>
-                  {propIdsLoading ||
-                  propMetadataLoading ||
-                  propsReverseOrder == undefined ? (
-                    <ProposalRowLoading count={12} />
-                  ) : (
-                    <div className="space-y-3 md:space-y-4">
-                      {propsReverseOrder &&
-                        propsReverseOrder.map((prop: DisplayProp) => {
-                          return (
-                            <div key={prop.id}>
-                              <ProposalRow
-                                prop={prop}
-                                currentBlockNumber={currentBlockNumber}
-                              />
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </>
-              )}
-
               {tabState === 1 && <GeneralCommentPanel />}
             </div>
           </div>

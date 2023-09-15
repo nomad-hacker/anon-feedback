@@ -7,15 +7,15 @@ import {
   createClient,
   configureChains,
   chain,
-  defaultChains,
 } from "wagmi";
+import {sepolia} from "wagmi/chains";
 import { infuraProvider } from "wagmi/providers/infura";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 
-const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
+const { chains, provider, webSocketProvider } = configureChains([sepolia], [
   infuraProvider({ apiKey: process.env.CLIENT_INFURA_PROJECT_ID }),
 ]);
 

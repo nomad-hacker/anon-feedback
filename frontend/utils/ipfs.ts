@@ -8,7 +8,7 @@ const auth =
   Buffer.from(infuraProjectId + ":" + infuraProjectSecret).toString("base64");
 
 // Since Infura deprecated public gateways, we need to use a dedicated gateway
-export const HOST = "heyanoun.infura-ipfs.io";
+export const HOST = "nomad-hacker.infura-ipfs.io";
 export async function postToIpfs(message: string) {
   const ipfs = create({
     host: "ipfs.infura.io",

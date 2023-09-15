@@ -72,3 +72,18 @@ model Leaf {
 
   @@unique([data, groupId])
 }
+
+
+model Feedback {
+  id      Int    @id @default(autoincrement())
+
+  commentMsg String
+  subject String
+  createdAt DateTime @default(now())
+
+  groupId Int 
+  group    Group @relation(fields: [groupId], references: [id])
+
+  ipfsProof String
+
+}
