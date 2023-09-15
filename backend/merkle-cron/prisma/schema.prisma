@@ -10,40 +10,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model House {
- 
-  id   Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  Hackers Hacker[]
+  Hackers         Hacker[]
+  HackersOnHouses HackersOnHouses[]
 }
 
-
 model Hacker {
-
-  id   Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
   address String
 
   Houses House[]
 
-  @@unique([address])
-
+  HackersOnHouses HackersOnHouses[]
+  Group           Group[]
 }
 
-
 model HackersOnHouses {
-  
-  house   House  @relation(fields: [houseId], references: [id])
+  house   House @relation(fields: [houseId], references: [id])
   houseId Int
 
-  hacker  Hacker  @relation(fields: [hackerId], references: [id])
-  hackerId  Int
- 
-  @id([hackerId, houseId])
+  hacker   Hacker @relation(fields: [hackerId], references: [id])
+  hackerId Int
 
+  @@id([hackerId, houseId])
 }
 
 model Group {
@@ -51,12 +45,13 @@ model Group {
   root String
 
   hackerId Int
-  hacker  Hacker @relation(fields: [hackerId], references: [id])
+  hacker   Hacker @relation(fields: [hackerId], references: [id])
 
   latestHackerHouseId Int
 
-  last_update DateTime @default(now())
+  last_update DateTime   @default(now())
   leaves      Leaf[]
+  feedbacks   Feedback[]
 
   @@unique([hackerId, latestHackerHouseId])
 }
@@ -73,17 +68,15 @@ model Leaf {
   @@unique([data, groupId])
 }
 
-
 model Feedback {
-  id      Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   commentMsg String
-  subject String
-  createdAt DateTime @default(now())
+  subject    String
+  createdAt  DateTime @default(now())
 
-  groupId Int 
-  group    Group @relation(fields: [groupId], references: [id])
+  groupId Int
+  group   Group @relation(fields: [groupId], references: [id])
 
   ipfsProof String
-
 }
