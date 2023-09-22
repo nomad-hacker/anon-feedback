@@ -21,9 +21,16 @@ const houseContract = new ethers.Contract(contractAddress, contractAbi, provider
 
 console.log('here')
 
-houseContract.on("HackerHouseCreated", async (sender, value, event) => {
+
+//houseContract.on("HackerHouseCreated", async (sender, value, event) => {
+//  console.log("Event received");
+//  console.log(sender);
+//  console.log(value);
+//  console.log(event);
+//  });
+
+
+houseContract.on("HackerHouseCreated", async (data) => {
   console.log("Event received");
-  console.log(sender);
-  console.log(value);
-  console.log(event);
+  console.log(data);
 }); 

@@ -133,20 +133,6 @@ const Home: NextPage = () => {
         <div className="bg-gray-50 min-h-screen">
           <div className="max-w-3xl mx-auto py-5 md:py-10 px-3 md:px-0">
             <div className="flex space-x-2">
-              <button
-                type="button"
-                className={classnames(
-                  "font-semi-bold items-center rounded-md border border-transparent bg-gray-50 active:bg-gray-200 px-4 py-2 font-medium text-gray-800 hover:bg-gray-100 text-xl transition-all",
-                  {
-                    "bg-gray-100": tabState === 1,
-                  }
-                )}
-                onClick={() => {
-                  setTabState(1);
-                }}
-              >
-                General
-              </button>
             </div>
             <div className="mt-6">
               {tabState === 1 && <GeneralCommentPanel />}
